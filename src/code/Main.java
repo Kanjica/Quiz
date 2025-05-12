@@ -1,4 +1,4 @@
-package quizz;
+package code;
 // primeiro commit
 import javax.swing.*;
 
@@ -301,27 +301,47 @@ public class Main {
             x.setPreferredSize(new Dimension(400, 400));
             x.setLayout(null);
             x.setVisible(false);
-            x.setOpaque(false);
-            x.setBounds(100,80, 290, 220);
+            x.setOpaque(true);
+            x.setBounds(145,100, 290, 420);
         // x.setBackground(new Color(0,0,0,0));
             List<String> temas = BancoDePerguntas.carregarPerguntasPadrao()
                     .stream()
                     .map(Pergunta::getTema)
                     .distinct()
                     .collect(Collectors.toList());
+
+            int larguraPainel = 400;
+            int larguraTitulo = 300;
+            int posX = (larguraPainel - larguraTitulo) / 2;
+        
+            JLabel novoTitulo = quizDoMariz;
+            novoTitulo.setText("Escolha os temas");
+            novoTitulo.setVisible(false);
+            x.add(novoTitulo);
+	    x.revalidate();
+            x.repaint();
+
+            System.out.println("novo titulo bounds: " + novoTitulo.getLocation());
+            System.out.println("titulo original bounds: " + quizDoMariz.getLocation());
             
             List<JCheckBox> temaCheckBox = new ArrayList<>();
             JButton prosseguir;
             prosseguir = criarBotao(" Prosseguir ", fontPadrao, null);
             
             moverPraDireita(botao, window, null, null, 
-                    null, btnA, btnB, btnC, btnD, quizDoMariz, x);
+            null, btnA, btnB, btnC, btnD, quizDoMariz, x);
             
             Timer removeBotao = new Timer(660, new ActionListener() {
-            
+                
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    
+                    novoTitulo.setBounds(posX, 40, larguraTitulo, 100);
+                    quizDoMariz.setBounds(posX, 60, larguraTitulo, 100);
+                    
                     quizDoMariz.setVisible(true);
+                    novoTitulo.setVisible(true);
+
                     quizDoMariz.setText(" Temas Disponíveis ");
                     /*window.remove(btnA);
                     window.remove(btnB);
@@ -332,14 +352,20 @@ public class Main {
                     btnC.setVisible(false);
                     btnD.setVisible(false);
 
+                    System.out.println("q: " +quizDoMariz.isVisible());
+                    System.out.println("n: " +novoTitulo.isVisible());
+
                     ((Timer) e.getSource()).stop();
                 }
             });
             removeBotao.start();
 
+            System.out.println("q: " + quizDoMariz.isVisible());
+            System.out.println("n: " +novoTitulo.isVisible());
+
             int coordenadaX = 0;
             int coordenadaY = 50;
-            
+
             for(int i=0; i<temas.size(); i++) {
 
                 temaCheckBox.add(new JCheckBox(temas.get(i)));
