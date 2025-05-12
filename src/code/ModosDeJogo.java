@@ -1,4 +1,4 @@
-package quizz;
+package code;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -277,6 +277,7 @@ public class ModosDeJogo extends JPanel{
     }
     
     public void attPerguntas() {
+        valorTempoRestante = 15;
     	perguntaRespondida=false;
 
     	for (JButton botao : opcoes) {
