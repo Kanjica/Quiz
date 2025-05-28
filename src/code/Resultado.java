@@ -1,4 +1,4 @@
-package quizz;
+package code;
 
 public class Resultado {
 	private String abc;
