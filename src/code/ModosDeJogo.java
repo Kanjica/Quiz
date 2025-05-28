@@ -109,10 +109,10 @@ public class ModosDeJogo extends JPanel{
             botao.setFont(fontePadrao.deriveFont(20f)); 
         }
 
-        opcoes.get(0).setBounds(100, 120, 200, 50);  
-        opcoes.get(1).setBounds(320, 120, 200, 50);
-        opcoes.get(2).setBounds(100, 180, 200, 50);
-        opcoes.get(3).setBounds(320, 180, 200, 50);
+        opcoes.get(0).setBounds(80, 120, 200, 50);  
+        opcoes.get(1).setBounds(300, 120, 200, 50);
+        opcoes.get(2).setBounds(80, 180, 200, 50);
+        opcoes.get(3).setBounds(300, 180, 200, 50);
 
         this.setPreferredSize(new Dimension(580, 400));
         this.setLayout(null);
