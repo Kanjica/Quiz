@@ -1,4 +1,4 @@
-package quizz;
+package code;
 
 public enum Dificuldade {
     FACIL(2.0),
