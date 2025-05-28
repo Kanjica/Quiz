@@ -456,7 +456,6 @@ public class Main {
 		 int larguraTitulo = 300;
 		 int posX = (larguraPainel - larguraTitulo) / 2;
 		 
-		 System.out.println("j eu te amo");
 		 String textoTitulo = "", 
 				textoA = "", 
 				textoB = "",  

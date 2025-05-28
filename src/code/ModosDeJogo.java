@@ -113,10 +113,10 @@ public class ModosDeJogo extends JPanel{
             botao.setFont(fontePadrao.deriveFont(20f)); 
         }
 
-        opcoes.get(0).setBounds(80, 120, 200, 50);  
-        opcoes.get(1).setBounds(300, 120, 200, 50);
-        opcoes.get(2).setBounds(80, 180, 200, 50);
-        opcoes.get(3).setBounds(300, 180, 200, 50);
+        opcoes.get(0).setBounds(30, 140, 250, 80);  
+        opcoes.get(1).setBounds(300, 140, 250, 80);
+        opcoes.get(2).setBounds(30, 230, 250, 80);
+        opcoes.get(3).setBounds(300, 230, 250, 80);
 
         this.setPreferredSize(new Dimension(580, 400));
         this.setLayout(null);
@@ -155,15 +155,22 @@ public class ModosDeJogo extends JPanel{
             int indiceCorreto = pergunta.getIndiceRespostaCorreta();
             String respostaCorreta = pergunta.getAlternativas().get(indiceCorreto).trim();
 
-            boolean acertou = botaoClicado.getText().trim().equalsIgnoreCase(respostaCorreta);
-
+            boolean acertou = false;
+            if(pergunta.getTipo() != Tipo.TRUE_FALSE) {
+            	acertou = botaoClicado.getText().trim().equalsIgnoreCase(respostaCorreta);
+            }
+            else{
+            	if((botaoClicado.getText().trim().equalsIgnoreCase("Sim") && indiceCorreto == 0) || botaoClicado.getText().trim().equalsIgnoreCase("Nao") && indiceCorreto == 1){
+            		acertou = true;
+            	}
+            }
             botaoClicado.setFocusPainted(true);
             botaoClicado.setOpaque(true);
             
-            if (acertou) {
+            if(acertou){
                 botaoClicado.setBackground(Color.GREEN);
                 System.out.println("Resposta Certa: " + respostaCorreta);
-            } else {
+            }else{
                 botaoClicado.setBackground(Color.RED);
                 System.out.println("Resposta Selecionada: " + botaoClicado.getText().trim() + " Resposta Certa: " + respostaCorreta);
             }
@@ -193,14 +200,15 @@ public class ModosDeJogo extends JPanel{
         
         for (JButton botao : opcoes) {
             botao.addActionListener(bananuchi);
-        }
+        } 
         
         this.progressBar = new JProgressBar();
-        progressBar.setBounds(90, 300, 400, 20);  
+        progressBar.setBounds( 110, 95, 360, 15);  
         progressBar.setMaximum(perguntasFiltradas.size()); 
+        progressBar.setForeground(Color.GREEN);
         progressBar.setValue(0); 
         progressBar.setStringPainted(true);
-        
+        //progressBar.setString(perguntasRespondidas + "/" + perguntasFiltradas.size());
         add(progressBar);
         
         swingTimerRef[0] = new Timer(15000, new ActionListener() {
@@ -247,7 +255,8 @@ public class ModosDeJogo extends JPanel{
             	else {
             		swingTimerRef[0].stop();
             		JOptionPane.showMessageDialog(null, "Quiz concluído!");
-            		System.exit(1);            	}
+            		System.exit(1);            	
+            		}
             }
         });
 
@@ -269,18 +278,18 @@ public class ModosDeJogo extends JPanel{
     }
     
     public Pergunta perguntaDaVez(boolean a){
-    	if(a) {
-    		if (cont >= perguntasFiltradas.size()) {
+    	if(a){
+    		if(cont >= perguntasFiltradas.size()){
     			cont = 0;
     		}
     		return perguntasFiltradas.get(cont++);
     	}
-    	else {
+    	else{
     		return perguntasFiltradas.get(cont - 1);
     	}
     }
     
-    public void attPerguntas() {
+    public void attPerguntas(){
         valorTempoRestante = 15;
     	perguntaRespondida=false;
 
@@ -299,12 +308,13 @@ public class ModosDeJogo extends JPanel{
     	opcoes.get(0).setVisible(true);
     	opcoes.get(1).setVisible(true);
     	
-    	if (pergunta.getTipo() == Tipo.TRUE_FALSE) {
+    	if (pergunta.getTipo() == Tipo.TRUE_FALSE){
     		opcoes.get(0).setText(" Sim ");
     		opcoes.get(1).setText(" Não ");
     		opcoes.get(2).setVisible(false);
     		opcoes.get(3).setVisible(false);
-    	} else {
+    	} 
+    	else{
     		opcoes.get(2).setVisible(true);
     		opcoes.get(3).setVisible(true);
     		
