@@ -1,4 +1,4 @@
-package quizz;
+package code;
 
 import java.awt.Graphics;
 import java.awt.Image;
