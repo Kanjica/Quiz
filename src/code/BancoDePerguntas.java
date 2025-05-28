@@ -1,4 +1,4 @@
-package quizz;
+package code;
  
 import java.util.*;
 
