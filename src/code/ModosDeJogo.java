@@ -13,19 +13,23 @@ import javax.swing.Timer;
 import java.io.IOException;
 
 /*
+sugestões do chat
+
+botaoDica.setBounds(500, 345, 70, 25);
+progressBar.setBounds(90, 95, 400, 15);
+botaoProxima.setBounds(220, 240, 140, 40);
+temaLabel.setBounds(90, 80, 400, 15);
+botaoProxima.setBounds(220, 240, 140, 40);
+acertosLabel.setBounds(100, 20, 80, 30);  // Acertos
+errosLabel.setBounds(100, 55, 80, 30);   // Erros
+
 coisas pra add:
 Tela pra escolher os temas, no modo tema fixo
 e o mesmo pra escolher qual personalidade no modo personalidade
 
 Pontuação (exibição dos pontos acumulados).
 
-Timer/Contador para adicionar urgência.
-
 Imagem/Avatar do jogador para personalização.
-
-Feedback de resposta visual (cores, animações, etc.).
-
-Barra de progresso para mostrar o avanço nas perguntas.
 
 Nível de dificuldade mostrado dinamicamente.
 
@@ -284,7 +288,8 @@ public class ModosDeJogo extends JPanel{
     		botao.setEnabled(true);
     		botao.setFocusPainted(false);
     		botao.setForeground(Color.WHITE);
-    		botao.setOpaque(false);
+    		botao.setBackground(Color.BLACK);
+		botao.setOpaque(true);
     		botao.setBackground(new Color(30, 30, 30));
     	}
     	
