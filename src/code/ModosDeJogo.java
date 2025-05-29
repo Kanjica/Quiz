@@ -46,6 +46,8 @@ public class ModosDeJogo extends JPanel{
     static boolean perguntaRespondida;
     private List<Image> backgroundsImages = new ArrayList<>();
     
+    JLabel acertos, erros,placar;
+    int numAcertos, numErros;
     JTextField enunciado;
     List<JButton> opcoes;
     JProgressBar progressBar;
@@ -98,11 +100,29 @@ public class ModosDeJogo extends JPanel{
         Font newFont = currentFont.deriveFont(24f); // Tamanho 24
         tempoRestante.setFont(newFont);
         tempoRestante.setVisible(true);
-        
         tempoRestante.setForeground(Color.WHITE);
-        System.out.println(tempoRestante.getLocation());
+        //System.out.println(tempoRestante.getLocation());
         
         add(tempoRestante);
+        /*
+        this.numAcertos = 0;
+        
+        this.acertos = new JLabel(String.valueOf(numAcertos));
+        acertos.setBounds(520, 10, 80, 80);
+        acertos.setFont(newFont);
+        acertos.setVisible(true);
+        acertos.setForeground(Color.GREEN);
+        //add(acertos);
+        
+        this.numErros = 0;
+        
+        this.erros = new JLabel(String.valueOf(numErros));
+        erros.setBounds(540, 10, 80, 80);
+        erros.setFont(newFont);
+        erros.setVisible(true);
+        erros.setForeground(Color.RED);
+        add(erros);
+        */
         
         this.opcoes = new ArrayList<>();
         for(int i = 0; i<4; i++){
@@ -146,7 +166,6 @@ public class ModosDeJogo extends JPanel{
         final Timer[] swingTimerRef = new Timer[1];
         
         ActionListener bananuchi = e -> {
-
             perguntaRespondida = true;
 
             JButton botaoClicado = (JButton) e.getSource();
@@ -156,7 +175,7 @@ public class ModosDeJogo extends JPanel{
             String respostaCorreta = pergunta.getAlternativas().get(indiceCorreto).trim();
 
             boolean acertou = false;
-            if(pergunta.getTipo() != Tipo.TRUE_FALSE) {
+            if(pergunta.getTipo() != Tipo.TRUE_FALSE){
             	acertou = botaoClicado.getText().trim().equalsIgnoreCase(respostaCorreta);
             }
             else{
@@ -170,9 +189,15 @@ public class ModosDeJogo extends JPanel{
             if(acertou){
                 botaoClicado.setBackground(Color.GREEN);
                 System.out.println("Resposta Certa: " + respostaCorreta);
-            }else{
+                //numAcertos++;
+                //acertos.setText(String.valueOf(numAcertos));
+            }
+            else{
                 botaoClicado.setBackground(Color.RED);
                 System.out.println("Resposta Selecionada: " + botaoClicado.getText().trim() + " Resposta Certa: " + respostaCorreta);
+                //numErros++;
+                //erros.setText(String.valueOf(numErros));
+                opcoes.get(indiceCorreto).setBackground(Color.GREEN);
             }
 
             for (JButton botao : opcoes) {
@@ -211,17 +236,17 @@ public class ModosDeJogo extends JPanel{
         //progressBar.setString(perguntasRespondidas + "/" + perguntasFiltradas.size());
         add(progressBar);
         
-        swingTimerRef[0] = new Timer(15000, new ActionListener() {
+        swingTimerRef[0] = new Timer(15000, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if(perguntasRespondidas < perguntasFiltradas.size()) {
+            	if(perguntasRespondidas < perguntasFiltradas.size()){
             		valorTempoRestante = 15;
             		
-            		new Timer(1000, new ActionListener() {
+            		new Timer(1000, new ActionListener(){
                         @Override
-                        public void actionPerformed(ActionEvent evt) {
+                        public void actionPerformed(ActionEvent evt){
                             tempoRestante.setText(String.valueOf(valorTempoRestante));
-                            if (valorTempoRestante == 0) {
+                            if(valorTempoRestante == 0){
                             	((Timer) evt.getSource()).stop(); 
                             }
                             else {
@@ -231,8 +256,17 @@ public class ModosDeJogo extends JPanel{
                     }).start();
             		
             		attPerguntas();
-                    /* 
-                    if (!perguntaRespondida) {
+                    /*
+                    if(!perguntaRespondida){
+                    	valorTempoRestante = 5;
+                        new Timer(5000, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                ((Timer) evt.getSource()).stop(); 
+                                swingTimerRef[0].restart();       
+                                swingTimerRef[0].getActionListeners()[0].actionPerformed(null); 
+                            }
+                        }).start();
                         Pergunta xl = perguntaDaVez(false);
                         for (JButton botao : opcoes) {
                             String resposta = botao.getText().trim();
@@ -240,7 +274,8 @@ public class ModosDeJogo extends JPanel{
                     
                             if (resposta.equalsIgnoreCase(correta)) {
                                 botao.setBackground(Color.GREEN);
-                            } else {
+                            } 
+                            else {
                                 botao.setBackground(Color.RED);
                             }
                     
@@ -250,13 +285,13 @@ public class ModosDeJogo extends JPanel{
                         perguntasRespondidas++;
                         progressBar.setValue(perguntasRespondidas);
                     }                    
-                       */ 
+                    */ 
             	}
             	else {
             		swingTimerRef[0].stop();
             		JOptionPane.showMessageDialog(null, "Quiz concluído!");
             		System.exit(1);            	
-            		}
+            	}
             }
         });
 
@@ -298,7 +333,7 @@ public class ModosDeJogo extends JPanel{
     		botao.setFocusPainted(false);
     		botao.setForeground(Color.WHITE);
     		botao.setBackground(Color.BLACK);
-		botao.setOpaque(true);
+    		botao.setOpaque(true);
     		botao.setBackground(new Color(30, 30, 30));
     	}
     	
