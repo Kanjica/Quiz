@@ -32,8 +32,7 @@ Pontuação (exibição dos pontos acumulados).
 Imagem/Avatar do jogador para personalização.
 
 Nível de dificuldade mostrado dinamicamente.
-
-Efeitos visuais e sonoros para tornar a experiência mais imersiva.*/
+*/
 
 public class ModosDeJogo extends JPanel{
     private List<Pergunta> perguntas = new ArrayList<>();
@@ -46,9 +45,10 @@ public class ModosDeJogo extends JPanel{
     static boolean perguntaRespondida;
     private List<Image> backgroundsImages = new ArrayList<>();
     
-    JLabel acertos, erros,placar;
+    JLabel areaTitulo;
+    //JLabel acertos, erros,placar;
     int numAcertos, numErros;
-    JTextField enunciado;
+    JTextArea enunciado;
     List<JButton> opcoes;
     JProgressBar progressBar;
 
@@ -56,17 +56,16 @@ public class ModosDeJogo extends JPanel{
         
         Font fontePadrao = null;
         try{
-        fontePadrao = CarregarFonte.carregarFonte("/font/Minecraft.ttf",14f);
+        	fontePadrao = CarregarFonte.carregarFonte("/font/Minecraft.ttf",14f);
         }
-        catch (FontFormatException e) {
+        catch (FontFormatException e){
             System.out.println("Erro ao carregar a fonte: " + e.getMessage());
-        } catch (IOException e) {
+        } catch (IOException e){
             System.out.println("Erro de I/O: " + e.getMessage());
         }
         perguntas = BancoDePerguntas.getPerguntas();
         
         this.backgroundImage = new ImageIcon(Main.class.getResource("/images/WpAa5DjgQIWRiDafdfVu-_Qwz0E0ajlea0NxvgcbjepRMJo-Z1G5Tlsf3ZWfSQnsr1BIDOpO1SZpoI2seM8HQLARBmHYpgfEtkjT.gif")).getImage();
-
 
         this.backgroundsImages.add(new ImageIcon(Main.class.getResource("/images/WpAa5DjgQIWRiDafdfVu-_Qwz0E0ajlea0NxvgcbjepRMJo-Z1G5Tlsf3ZWfSQnsr1BIDOpO1SZpoI2seM8HQLARBmHYpgfEtkjT.gif")).getImage());
         this.backgroundsImages.add(new ImageIcon(Main.class.getResource("/images/ckp5gcuzv7581.gif")).getImage());
@@ -88,12 +87,23 @@ public class ModosDeJogo extends JPanel{
         });
         trocaFundo.start();
         */
+        this.areaTitulo = new JLabel("Tema: - Nível:", SwingConstants.CENTER);
+        areaTitulo.setFont(fontePadrao.deriveFont(14f));
+        areaTitulo.setBounds(330/2, 3, 250, 20);
+        areaTitulo.setForeground(Color.WHITE);
+        areaTitulo.setVisible(true);
+        add(areaTitulo);
         
-        this.enunciado = new JTextField();
+        this.enunciado = new JTextArea();
         enunciado.setBounds(90, 30, 400, 60); // centralizado horizontalmente
-        enunciado.setHorizontalAlignment(JTextField.CENTER);
+        //enunciado.setHorizontalAlignment(JTextField.CENTER);
+        enunciado.setLineWrap(true); 
+        enunciado.setWrapStyleWord(true);
         enunciado.setFont(fontePadrao);
         enunciado.setEditable(false);
+        enunciado.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        enunciado.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        enunciado.setMargin(new Insets(15,15,15,15));
         
         this.tempoRestante.setBounds(10, 10, 80, 80);
         Font currentFont = tempoRestante.getFont();
@@ -159,6 +169,7 @@ public class ModosDeJogo extends JPanel{
                     .filter(n -> n.getTipo() != Tipo.PERSONALIDADE)
                     .collect(Collectors.toList());
 
+            Collections.shuffle(perguntasFiltradas);
             perguntasFiltradas.sort(Comparator.comparing(p -> p.getNivel()));
         }
             
@@ -328,7 +339,7 @@ public class ModosDeJogo extends JPanel{
         valorTempoRestante = 15;
     	perguntaRespondida=false;
 
-    	for (JButton botao : opcoes) {
+    	for(JButton botao : opcoes){
     		botao.setEnabled(true);
     		botao.setFocusPainted(false);
     		botao.setForeground(Color.WHITE);
@@ -338,12 +349,13 @@ public class ModosDeJogo extends JPanel{
     	}
     	
     	Pergunta pergunta = perguntaDaVez(true);
+    	areaTitulo.setText("Tema: " + pergunta.getTema() + " - Nível: " + pergunta.getNivel().toString());
     	enunciado.setText(pergunta.getEnunciado());
     	
     	opcoes.get(0).setVisible(true);
     	opcoes.get(1).setVisible(true);
     	
-    	if (pergunta.getTipo() == Tipo.TRUE_FALSE){
+    	if(pergunta.getTipo() == Tipo.TRUE_FALSE){
     		opcoes.get(0).setText(" Sim ");
     		opcoes.get(1).setText(" Não ");
     		opcoes.get(2).setVisible(false);

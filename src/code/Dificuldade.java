@@ -15,4 +15,15 @@ public enum Dificuldade {
     public double getValor() {
         return valor;
     }
+    
+    @Override
+    public String toString(){
+        switch(this){
+            case FACIL: return "Fácil";
+            case MEDIO: return "Médio";
+            case DIFICIL: return "Dificil";
+            case EXTREMA: return "Extremo";
+            default: return "";
+        }
+    }
 }
