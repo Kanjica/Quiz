@@ -349,9 +349,12 @@ public class ModosDeJogo extends JPanel{
     	}
     	
     	Pergunta pergunta = perguntaDaVez(true);
-    	areaTitulo.setText("Tema: " + pergunta.getTema() + " - Nível: " + pergunta.getNivel().toString());
+    	Dificuldade n = pergunta.getNivel();
+    	areaTitulo.setText("Tema: " + pergunta.getTema() + " - Nível: " + n.toString());
     	enunciado.setText(pergunta.getEnunciado());
-    	
+    	progressBar.setForeground(n == Dificuldade.FACIL? Color.GREEN: 
+    								n == Dificuldade.MEDIO? Color.YELLOW:
+    									n == Dificuldade.DIFICIL? Color.RED :  Color.decode("#8B0000"));
     	opcoes.get(0).setVisible(true);
     	opcoes.get(1).setVisible(true);
     	
