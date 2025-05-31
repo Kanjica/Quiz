@@ -46,12 +46,14 @@ public class ModosDeJogo extends JPanel{
     private List<Image> backgroundsImages = new ArrayList<>();
     //private Image[] hearts = new Image[2];
     
+    JLabel h1, h2,h3;
     JLabel areaTitulo;
     //JLabel acertos, erros,placar;
     int numAcertos, numErros, vidas = 3;
     JTextArea enunciado;
     List<JButton> opcoes;
     JProgressBar progressBar;
+    ImageIcon fullHeartIcon, unFullHeartIcon;
 
     public ModosDeJogo(String texto, List<String> temas){
         
@@ -118,16 +120,22 @@ public class ModosDeJogo extends JPanel{
         
         add(tempoRestante);
         
-        ImageIcon fullHeartIcon = new ImageIcon(Main.class.getResource("/images/coracaoCheio.png"));
+        this.fullHeartIcon = new ImageIcon(Main.class.getResource("/images/coracaoCheio.png"));
+        Image fullHeartRedimensionada = fullHeartIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        fullHeartIcon = new ImageIcon(fullHeartRedimensionada);
         
-        ImageIcon unFullHeartIcon = new ImageIcon(Main.class.getResource("/images/coracaoVazio.png"));
+        this.unFullHeartIcon = new ImageIcon(Main.class.getResource("/images/coracaoVazio.png"));
+        Image unFullHeartRedimensionada = unFullHeartIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        unFullHeartIcon = new ImageIcon(unFullHeartRedimensionada);
         
-        JLabel h1 = new JLabel(fullHeartIcon);
-        JLabel h2 = new JLabel(fullHeartIcon);
-        JLabel h3 = new JLabel(fullHeartIcon);
-        JLabel h4 = new JLabel(unFullHeartIcon);
+        this.h1 = new JLabel(fullHeartIcon);
+        this.h2 = new JLabel(fullHeartIcon);
+        this.h3 = new JLabel(fullHeartIcon);
         
-        h1.setBounds(550, 10, 30, 30);
+        h1.setBounds(500, 35, 20, 20);
+        h2.setBounds(520, 35, 20, 20);
+        h3.setBounds(540, 35, 20, 20);
+        
         add(h1);
         add(h2);
         add(h3);
@@ -217,18 +225,20 @@ public class ModosDeJogo extends JPanel{
             if(acertou){
                 botaoClicado.setBackground(Color.GREEN);
                 System.out.println("Resposta Certa: " + respostaCorreta);
-                //numAcertos++;
+                numAcertos++;
                 //acertos.setText(String.valueOf(numAcertos));
             }
             else{
+            	vidas--;
                 botaoClicado.setBackground(Color.RED);
                 System.out.println("Resposta Selecionada: " + botaoClicado.getText().trim() + " Resposta Certa: " + respostaCorreta);
                 //numErros++;
                 //erros.setText(String.valueOf(numErros));
                 opcoes.get(indiceCorreto).setBackground(Color.GREEN);
             }
-
-            for (JButton botao : opcoes) {
+            
+            atualizarVidas();
+            for (JButton botao : opcoes){
 	            	botao.setEnabled(false);
 	        }
             
@@ -267,7 +277,7 @@ public class ModosDeJogo extends JPanel{
         swingTimerRef[0] = new Timer(15000, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if(perguntasRespondidas < perguntasFiltradas.size()){
+            	if(perguntasRespondidas < perguntasFiltradas.size() && vidas != 0){
             		valorTempoRestante = 15;
             		
             		new Timer(1000, new ActionListener(){
@@ -317,8 +327,39 @@ public class ModosDeJogo extends JPanel{
             	}
             	else {
             		swingTimerRef[0].stop();
-            		JOptionPane.showMessageDialog(null, "Quiz concluído!");
-            		System.exit(1);            	
+            		int porcentagem = cont>3?(numAcertos * 100) / cont: (numAcertos * 100) / perguntasFiltradas.size();
+
+            		// Cria mensagem fácil de entender
+            		String mensagem = 
+            		    "Fim do Quiz!\n\n" +
+            		    "Você acertou: " + numAcertos + " de " + (cont>3? cont: perguntasFiltradas.size())  + "\n" +
+            		    "Porcentagem: " + porcentagem + "%";
+            		
+            		Object[] opcoes = {"Jogar Novamente", "Voltar ao Menu", "Sair"};
+
+            		int escolha = JOptionPane.showOptionDialog(
+            		    null,
+            		    mensagem,
+            		    "Resultado Final",
+            		    JOptionPane.DEFAULT_OPTION,
+            		    JOptionPane.PLAIN_MESSAGE,
+            		    new ImageIcon(fullHeartRedimensionada), // Ícone personalizado
+            		    opcoes,
+            		    opcoes[0]
+            		);   
+            		
+            		
+            		if(escolha == 0){
+            		    //reiniciarQuiz(); 
+            			System.exit(0);
+            		} 
+            		else if (escolha == 1) {
+            		   // voltarAoMenu();
+            			System.exit(0);
+            		} 
+            		else {
+            		    System.exit(0); // Sair
+            		}
             	}
             }
         });
@@ -394,6 +435,13 @@ public class ModosDeJogo extends JPanel{
     	}
     }
     
+    public void atualizarVidas(){
+        this.h1.setIcon(vidas >= 1 ? fullHeartIcon : unFullHeartIcon);
+        this.h2.setIcon(vidas >= 2 ? fullHeartIcon : unFullHeartIcon);
+        this.h3.setIcon(vidas >= 3 ? fullHeartIcon : unFullHeartIcon);
+        
+        repaint();
+    }
     public int returnAction() {
     	return 0;
     }
