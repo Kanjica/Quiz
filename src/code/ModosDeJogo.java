@@ -44,10 +44,11 @@ public class ModosDeJogo extends JPanel{
     static JLabel tempoRestante = new JLabel("");
     static boolean perguntaRespondida;
     private List<Image> backgroundsImages = new ArrayList<>();
+    //private Image[] hearts = new Image[2];
     
     JLabel areaTitulo;
     //JLabel acertos, erros,placar;
-    int numAcertos, numErros;
+    int numAcertos, numErros, vidas = 3;
     JTextArea enunciado;
     List<JButton> opcoes;
     JProgressBar progressBar;
@@ -74,6 +75,8 @@ public class ModosDeJogo extends JPanel{
         this.backgroundsImages.add(new ImageIcon(Main.class.getResource("/images/giphy.gif")).getImage());
         this.backgroundsImages.add(new ImageIcon(Main.class.getResource("/images/quiz-background.jpg")).getImage());
 
+        //this.hearts[0] = new ImageIcon(Main.class.getResource("/images/coracaoCheio.jpg")).getImage();
+        //this.hearts[1] = new ImageIcon(Main.class.getResource("/images/coracaoVazio.jpg")).getImage();
         /* 
         Timer trocaFundo = new Timer(10000, new ActionListener() {
             private int indexImagem = 0;
@@ -114,6 +117,20 @@ public class ModosDeJogo extends JPanel{
         //System.out.println(tempoRestante.getLocation());
         
         add(tempoRestante);
+        
+        ImageIcon fullHeartIcon = new ImageIcon(Main.class.getResource("/images/coracaoCheio.png"));
+        
+        ImageIcon unFullHeartIcon = new ImageIcon(Main.class.getResource("/images/coracaoVazio.png"));
+        
+        JLabel h1 = new JLabel(fullHeartIcon);
+        JLabel h2 = new JLabel(fullHeartIcon);
+        JLabel h3 = new JLabel(fullHeartIcon);
+        JLabel h4 = new JLabel(unFullHeartIcon);
+        
+        h1.setBounds(550, 10, 30, 30);
+        add(h1);
+        add(h2);
+        add(h3);
         /*
         this.numAcertos = 0;
         
@@ -319,8 +336,8 @@ public class ModosDeJogo extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Desenha a imagem no fundo
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+
     }
     
     public Pergunta perguntaDaVez(boolean a){
@@ -354,7 +371,8 @@ public class ModosDeJogo extends JPanel{
     	enunciado.setText(pergunta.getEnunciado());
     	progressBar.setForeground(n == Dificuldade.FACIL? Color.GREEN: 
     								n == Dificuldade.MEDIO? Color.YELLOW:
-    									n == Dificuldade.DIFICIL? Color.RED :  Color.decode("#8B0000"));
+    									n == Dificuldade.DIFICIL? Color.RED : 
+    										Color.decode("#8B0000"));
     	opcoes.get(0).setVisible(true);
     	opcoes.get(1).setVisible(true);
     	
@@ -379,34 +397,5 @@ public class ModosDeJogo extends JPanel{
     public int returnAction() {
     	return 0;
     }
-/*
-    private void construirLayoutBase(Font fontePadrao) {
-        // Cria enunciado
-        enunciado = new JTextField();
-        enunciado.setBounds(90, 30, 400, 60);
-        enunciado.setHorizontalAlignment(JTextField.CENTER);
-        enunciado.setFont(fontePadrao);
-        enunciado.setEditable(false);
-        this.add(enunciado);
-    
-        // Cria botões
-        for (int i = 0; i < 4; i++) {
-            JButton botao = Main.criarBotao("", fontePadrao, null);
-            botao.setFont(fontePadrao.deriveFont(20f));
-            opcoes.add(botao);
-            this.add(botao);
-        }
-    
-        opcoes.get(0).setBounds(100, 120, 200, 50);
-        opcoes.get(1).setBounds(320, 120, 200, 50);
-        opcoes.get(2).setBounds(100, 180, 200, 50);
-        opcoes.get(3).setBounds(320, 180, 200, 50);
-    
-        // Barra de progresso
-        progressBar = new JProgressBar();
-        progressBar.setBounds(90, 300, 400, 20);
-        progressBar.setStringPainted(true);
-        this.add(progressBar);
-    }
-*/
+
 }

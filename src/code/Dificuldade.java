@@ -1,6 +1,6 @@
 package code;
 
-public enum Dificuldade {
+public enum Dificuldade{
     FACIL(2.0),
     MEDIO(5.0),
     DIFICIL(8.0),
@@ -8,11 +8,11 @@ public enum Dificuldade {
 	
     private final double valor;
 
-    Dificuldade(double valor) {
+    Dificuldade(double valor){
         this.valor = valor;
     }
 
-    public double getValor() {
+    public double getValor(){
         return valor;
     }
     

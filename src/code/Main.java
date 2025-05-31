@@ -245,7 +245,7 @@ public class Main {
     }
     
     
-    public static JLabel adicionarTituloComBorda(JPanel painel, JLabel titulo, Color corBorda) {
+    public static JLabel adicionarTituloComBorda(JPanel painel, JLabel titulo, Color corBorda){
         JLabel borda = new JLabel(titulo.getText());
         borda.setFont(titulo.getFont());
         borda.setBounds(titulo.getX() + 2, titulo.getY() + 2, titulo.getWidth(), titulo.getHeight());
@@ -264,7 +264,7 @@ public class Main {
     }
 
 
-    public static JButton criarBotao(String texto, Font fontePadrao, JLabel setaLabel) {
+    public static JButton criarBotao(String texto, Font fontePadrao, JLabel setaLabel){
     	JButton botao = new JButton(texto);
         botao.setFont(fontePadrao.deriveFont(16f));
         botao.setSize(150,40);
@@ -274,15 +274,15 @@ public class Main {
         botao.setOpaque(false);
         botao.setMargin(new Insets(1,1,1,1));
         
-        botao.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent evt) {
+        botao.addMouseListener(new MouseAdapter(){
+            public void mouseEntered(MouseEvent evt){
             	botao.setForeground(Color.RED);
             	if(setaLabel!=null) {setaLabel.setVisible(true);
             	setaLabel.setBounds(80, botao.getY()-30, 120, 100);
             	}
             }
 
-            public void mouseExited(MouseEvent evt) {
+            public void mouseExited(MouseEvent evt){
             	botao.setForeground(Color.WHITE);
             	if(setaLabel!=null)setaLabel.setVisible(false);
             }
@@ -435,10 +435,7 @@ public class Main {
                 }
                 
             });
-		//JOptionPane.showConfirmDialog(null, botao.getName());
-		//window.setContentPane(new ModosDeJogo(botao.getText().trim()));
-		//window.revalidate();
-		//window.repaint();	
+		
     	}
     	else {
     		JPanel sldf = new ModosDeJogo(botao.getText().trim(), null);
