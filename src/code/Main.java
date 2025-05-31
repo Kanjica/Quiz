@@ -44,12 +44,12 @@ public class Main {
         close.setForeground(Color.WHITE);
         close.setBounds(540, 5, 30, 30);
         close.addActionListener(e -> System.exit(0));   
-        close.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent evt) {
+        close.addMouseListener(new MouseAdapter(){
+            public void mouseEntered(MouseEvent evt){
                 close.setForeground(Color.RED);
             }
 
-            public void mouseExited(MouseEvent evt) {
+            public void mouseExited(MouseEvent evt){
                 close.setForeground(Color.WHITE);
             }
         });

@@ -353,11 +353,11 @@ public class ModosDeJogo extends JPanel{
             		    //reiniciarQuiz(); 
             			System.exit(0);
             		} 
-            		else if (escolha == 1) {
+            		else if(escolha == 1){
             		   // voltarAoMenu();
             			System.exit(0);
             		} 
-            		else {
+            		else{
             		    System.exit(0); // Sair
             		}
             	}
@@ -368,7 +368,7 @@ public class ModosDeJogo extends JPanel{
         swingTimerRef[0].getActionListeners()[0].actionPerformed(null);
 
     this.add(enunciado);
-    for(JButton z: opcoes) {
+    for(JButton z: opcoes){
     	this.add(z);
     	}
         
@@ -442,6 +442,7 @@ public class ModosDeJogo extends JPanel{
         
         repaint();
     }
+    
     public int returnAction() {
     	return 0;
     }
