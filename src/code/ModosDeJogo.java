@@ -47,7 +47,7 @@ public class ModosDeJogo extends JPanel{
     //private Image[] hearts = new Image[2];
     
     JLabel h1, h2,h3;
-    JLabel areaTitulo;
+    JLabel areaTitulo, frase;
     //JLabel acertos, erros,placar;
     int numAcertos, numErros, vidas = 3;
     JTextArea enunciado;
@@ -58,14 +58,17 @@ public class ModosDeJogo extends JPanel{
     public ModosDeJogo(String texto, List<String> temas){
         
         Font fontePadrao = null;
-        try{
-        	fontePadrao = CarregarFonte.carregarFonte("/font/Minecraft.ttf",14f);
-        }
-        catch (FontFormatException e){
-            System.out.println("Erro ao carregar a fonte: " + e.getMessage());
-        } catch (IOException e){
-            System.out.println("Erro de I/O: " + e.getMessage());
-        }
+       // try{
+        	// Registra a fonte uma vez no início do programa
+        	//CarregarFonte.registrarFonte("/font/Minecraftia-Regular.ttf");
+
+        	fontePadrao = CarregarFonte.obterFonte("Minecraftia 2.0", 20f);
+       // }
+       // catch (FontFormatException e){
+        //    System.out.println("Erro ao carregar a fonte: " + e.getMessage());
+       // } catch (IOException e){
+      //      System.out.println("Erro de I/O: " + e.getMessage());
+      //  }
         perguntas = BancoDePerguntas.getPerguntas();
         
         this.backgroundImage = new ImageIcon(Main.class.getResource("/images/WpAa5DjgQIWRiDafdfVu-_Qwz0E0ajlea0NxvgcbjepRMJo-Z1G5Tlsf3ZWfSQnsr1BIDOpO1SZpoI2seM8HQLARBmHYpgfEtkjT.gif")).getImage();
@@ -94,17 +97,25 @@ public class ModosDeJogo extends JPanel{
         */
         this.areaTitulo = new JLabel("Tema: - Nível:", SwingConstants.CENTER);
         areaTitulo.setFont(fontePadrao.deriveFont(14f));
-        areaTitulo.setBounds(330/2, 3, 250, 20);
+        areaTitulo.setBounds(270/2, 3, 300, 20);
         areaTitulo.setForeground(Color.WHITE);
         areaTitulo.setVisible(true);
         add(areaTitulo);
         
+        this.frase = new JLabel("");
+        frase.setBounds(330/2, 480, 250, 40);
+        frase.setText("Bananas são azuis");
+        frase.setVisible(true);
+        add(frase);
+        
+        System.out.println("Local Frase" + frase.getLocation() + "Is visible" + frase.isVisible());
+        
         this.enunciado = new JTextArea();
-        enunciado.setBounds(90, 30, 400, 60); // centralizado horizontalmente
+        enunciado.setBounds(90, 30, 400, 90); // centralizado horizontalmente
         //enunciado.setHorizontalAlignment(JTextField.CENTER);
         enunciado.setLineWrap(true); 
         enunciado.setWrapStyleWord(true);
-        enunciado.setFont(fontePadrao);
+        enunciado.setFont(fontePadrao.deriveFont(14f));
         enunciado.setEditable(false);
         enunciado.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         enunciado.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -132,13 +143,15 @@ public class ModosDeJogo extends JPanel{
         this.h2 = new JLabel(fullHeartIcon);
         this.h3 = new JLabel(fullHeartIcon);
         
-        h1.setBounds(500, 35, 20, 20);
-        h2.setBounds(520, 35, 20, 20);
-        h3.setBounds(540, 35, 20, 20);
+        h1.setBounds(506, 35, 20, 20);
+        h2.setBounds(526, 35, 20, 20);
+        h3.setBounds(546, 35, 20, 20);
         
         add(h1);
         add(h2);
         add(h3);
+        
+        add(Main.getClose());
         /*
         this.numAcertos = 0;
         
@@ -165,13 +178,14 @@ public class ModosDeJogo extends JPanel{
         }
         
         for (JButton botao : opcoes) {
-            botao.setFont(fontePadrao.deriveFont(20f)); 
+            botao.setFont(fontePadrao.deriveFont(14f)); 
+            botao.setMargin(opcoes.get(0).getInsets());
         }
 
-        opcoes.get(0).setBounds(30, 140, 250, 80);  
-        opcoes.get(1).setBounds(300, 140, 250, 80);
-        opcoes.get(2).setBounds(30, 230, 250, 80);
-        opcoes.get(3).setBounds(300, 230, 250, 80);
+        opcoes.get(0).setBounds(30, 170, 250, 80);  
+        opcoes.get(1).setBounds(300, 170, 250, 80);
+        opcoes.get(2).setBounds(30, 260, 250, 80);
+        opcoes.get(3).setBounds(300, 260, 250, 80);
 
         this.setPreferredSize(new Dimension(580, 400));
         this.setLayout(null);
@@ -195,8 +209,8 @@ public class ModosDeJogo extends JPanel{
                     .collect(Collectors.toList());
 
             Collections.shuffle(perguntasFiltradas);
-            perguntasFiltradas.sort(Comparator.comparing(p -> p.getNivel()));
         }
+        perguntasFiltradas.sort(Comparator.comparing(p -> p.getNivel()));
             
         
         final Timer[] swingTimerRef = new Timer[1];
@@ -266,7 +280,7 @@ public class ModosDeJogo extends JPanel{
         } 
         
         this.progressBar = new JProgressBar();
-        progressBar.setBounds( 110, 95, 360, 15);  
+        progressBar.setBounds( 110, 125, 360, 15);  
         progressBar.setMaximum(perguntasFiltradas.size()); 
         progressBar.setForeground(Color.GREEN);
         progressBar.setValue(0); 
@@ -274,16 +288,24 @@ public class ModosDeJogo extends JPanel{
         //progressBar.setString(perguntasRespondidas + "/" + perguntasFiltradas.size());
         add(progressBar);
         
-        swingTimerRef[0] = new Timer(15000, new ActionListener(){
+        swingTimerRef[0] = new Timer(17000, new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e){
             	if(perguntasRespondidas < perguntasFiltradas.size() && vidas != 0){
             		valorTempoRestante = 15;
+            		
             		
             		new Timer(1000, new ActionListener(){
                         @Override
                         public void actionPerformed(ActionEvent evt){
                             tempoRestante.setText(String.valueOf(valorTempoRestante));
+                            if(valorTempoRestante == 0 && perguntaRespondida==false){
+                    			vidas--;
+                    			atualizarVidas();
+                    			System.out.println("Vidas: " + vidas );
+                    		}
+                    		
+                    		System.out.println("Valor tempo restante: " + valorTempoRestante + "\n Estado da pergunta: " + (perguntaRespondida == true? "Respondida" : "Não Respondida"));
                             if(valorTempoRestante == 0){
                             	((Timer) evt.getSource()).stop(); 
                             }
@@ -292,6 +314,7 @@ public class ModosDeJogo extends JPanel{
                             }
                         }
                     }).start();
+            		
             		
             		attPerguntas();
                     /*
@@ -343,7 +366,7 @@ public class ModosDeJogo extends JPanel{
             		    "Resultado Final",
             		    JOptionPane.DEFAULT_OPTION,
             		    JOptionPane.PLAIN_MESSAGE,
-            		    new ImageIcon(fullHeartRedimensionada), // Ícone personalizado
+            		    new ImageIcon(fullHeartRedimensionada), 
             		    opcoes,
             		    opcoes[0]
             		);   
@@ -432,6 +455,14 @@ public class ModosDeJogo extends JPanel{
     		opcoes.get(2).setText(pergunta.getAlternativas().get(2));
     		opcoes.get(3).setText(pergunta.getAlternativas().get(3));
     		
+    	}
+    	for(JButton a: opcoes){
+    		if(a.getText().length()>22){
+    			//a.setFont(a.getFont().deriveFont(8f));
+    		}
+    		else {
+    			a.setFont(a.getFont().deriveFont(14f));
+    		}
     	}
     }
     

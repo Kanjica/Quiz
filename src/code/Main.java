@@ -15,14 +15,18 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws FontFormatException, IOException {
+        //Font fonteTitulo = CarregarFonte.carregarFonte("/font/Perfect Delight 1992.otf", 64f);
+        //Font fonteClose = CarregarFonte.carregarFonte("/font/SpecialExit.ttf", 12f);
+        //Font fontePadrao = CarregarFonte.carregarFonte("/font/Minecraftia-Regular.ttf", 12f);
         
-        Font fonteTitulo = CarregarFonte.carregarFonte("/font/Perfect Delight 1992.otf", 64f);
-        Font fonteClose = CarregarFonte.carregarFonte("/font/SpecialExit.ttf", 14f);
-        Font fontePadrao = CarregarFonte.carregarFonte("/font/Minecraft.ttf", 14f);
-
-	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    ge.registerFont(fonteTitulo);
-
+        CarregarFonte.registrarFonte("/font/Perfect Delight 1992.otf");//64
+        CarregarFonte.registrarFonte("/font/SpecialExit.ttf");//12
+        CarregarFonte.registrarFonte("/font/Minecraftia-Regular.ttf");//12
+        //Perfect Delight 1992 SpecialExit
+        Font fonteTitulo = CarregarFonte.obterFonte("Perfect Delight 1992", 64f);
+        Font fonteClose = CarregarFonte.obterFonte("SpecialExit", 20f);
+        Font fontePadrao = CarregarFonte.obterFonte("Minecraftia 2.0", 20f);
+        
         JFrame window = new JFrame();
         window.setSize(580, 400);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -298,11 +302,11 @@ public class Main {
     	
             JPanel x = new JPanel ();
             
-            x.setPreferredSize(new Dimension(400, 400));
+            x.setPreferredSize(new Dimension(510, 350));
             x.setLayout(null);
-            x.setVisible(false);
-            x.setOpaque(true);
-            x.setBounds(145,100, 290, 420);
+            x.setVisible(true);
+            x.setOpaque(false);
+            x.setBounds(30,30, 510, 350);
         // x.setBackground(new Color(0,0,0,0));
             List<String> temas = BancoDePerguntas.carregarPerguntasPadrao()
                     .stream()
@@ -310,15 +314,20 @@ public class Main {
                     .distinct()
                     .collect(Collectors.toList());
 
-            int larguraPainel = 400;
+            int larguraPainel = 510;
             int larguraTitulo = 300;
             int posX = (larguraPainel - larguraTitulo) / 2;
         
-            JLabel novoTitulo = quizDoMariz;
+            JLabel novoTitulo = new JLabel();
+            novoTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+            novoTitulo.setFont(new Font("Perfect Delight 1992",Font.PLAIN, 64));
+            
+            novoTitulo.setBounds(posX, 10, larguraTitulo, 100);
+            novoTitulo.setForeground(Color.WHITE);
             novoTitulo.setText("Escolha os temas");
-            novoTitulo.setVisible(false);
+            novoTitulo.setVisible(true);
             x.add(novoTitulo);
-	    x.revalidate();
+            x.revalidate();
             x.repaint();
 
             System.out.println("novo titulo bounds: " + novoTitulo.getLocation());
@@ -336,7 +345,6 @@ public class Main {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     
-                    novoTitulo.setBounds(posX, 40, larguraTitulo, 100);
                     quizDoMariz.setBounds(posX, 60, larguraTitulo, 100);
                     
                     quizDoMariz.setVisible(true);
@@ -352,24 +360,21 @@ public class Main {
                     btnC.setVisible(false);
                     btnD.setVisible(false);
 
-                    System.out.println("q: " +quizDoMariz.isVisible());
-                    System.out.println("n: " +novoTitulo.isVisible());
 
                     ((Timer) e.getSource()).stop();
                 }
             });
             removeBotao.start();
 
-            System.out.println("q: " + quizDoMariz.isVisible());
-            System.out.println("n: " +novoTitulo.isVisible());
 
-            int coordenadaX = 0;
-            int coordenadaY = 50;
-
+            int coordenadaX = 50;
+            int coordenadaY = 80;
+            Font fontePadrao = CarregarFonte.obterFonte("Minecraftia 2.0", 20f);
             for(int i=0; i<temas.size(); i++) {
 
                 temaCheckBox.add(new JCheckBox(temas.get(i)));
                 x.add(temaCheckBox.get(i));
+                temaCheckBox.get(i).setFont(fontePadrao.deriveFont(11f));
                 temaCheckBox.get(i).setMargin(new Insets(2, 2, 2, 2));
                 temaCheckBox.get(i).setFocusPainted(false);
                 temaCheckBox.get(i).setContentAreaFilled(true); // pinta o fundo
@@ -383,15 +388,22 @@ public class Main {
                 temaCheckBox.get(i).setHorizontalTextPosition(SwingConstants.RIGHT);
                 temaCheckBox.get(i).setHorizontalAlignment(SwingConstants.LEFT); 
 
-                if(i==(temas.size()/2)) {coordenadaY = 50; coordenadaX+=150;}
-                
+                int coluna = i % 3;
+                int linha = i / 3;
+                int baseX = 35; 
+                int baseY = 100; 
+                int espacamentoX = 150;
+                int espacamentoY = 30;
+
+                coordenadaX = baseX + coluna * espacamentoX;
+                coordenadaY = baseY + linha * espacamentoY;
+
                 temaCheckBox.get(i).setBounds(coordenadaX, coordenadaY, 140, 20);
-                coordenadaY+= 30; 		
             }
             
             
             prosseguir.setForeground(Color.black);
-            prosseguir.setBounds(70,150,150,60);
+            prosseguir.setBounds(360/2,270,150,60);
             prosseguir.setVisible(true);
             x.add(prosseguir);
             x.revalidate();
@@ -490,7 +502,6 @@ public class Main {
     	    sldf.setSize(580, window.getHeight()); // ajusta o tamanho pra cobrir a tela toda
     	    sldf.setOpaque(true);
     	    
-    	    // Adiciona por cima do painel atual
     	    window.getLayeredPane().add(sldf, JLayeredPane.POPUP_LAYER); // camada sobreposta
     	}
 
@@ -595,4 +606,33 @@ public class Main {
 	//}
     
     }
+
+
+	public static JButton getClose() {
+		Font fonteClose = null;
+		
+			fonteClose = CarregarFonte.obterFonte("Minecraftia 2.0", 20f);
+			
+		JButton close = new JButton("X");
+        close.setFont(fonteClose);
+        close.setMargin(new Insets(1,1,1,1));
+        close.setFocusPainted(false);
+        close.setBorderPainted(false);
+        close.setContentAreaFilled(false);
+        close.setBorderPainted(false);
+        close.setOpaque(false);
+        close.setForeground(Color.WHITE);
+        close.setBounds(540, 5, 30, 30);
+        close.addActionListener(e -> System.exit(0));   
+        close.addMouseListener(new MouseAdapter(){
+            public void mouseEntered(MouseEvent evt){
+                close.setForeground(Color.RED);
+            }
+
+            public void mouseExited(MouseEvent evt){
+                close.setForeground(Color.WHITE);
+            }
+        });
+		return close;
+	}
 }
