@@ -264,7 +264,7 @@ public class ModosDeJogo extends JPanel{
                 repaint();
             }
             
-            if(valorTempoRestante>5)valorTempoRestante = 5;
+            if(valorTempoRestante>5)valorTempoRestante = 3;
             new Timer(5000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {

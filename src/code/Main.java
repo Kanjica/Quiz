@@ -26,7 +26,8 @@ public class Main {
         Font fonteTitulo = CarregarFonte.obterFonte("Perfect Delight 1992", 64f);
         Font fonteClose = CarregarFonte.obterFonte("SpecialExit", 20f);
         Font fontePadrao = CarregarFonte.obterFonte("Minecraftia 2.0", 20f);
-        
+        fonteTitulo = fontePadrao;
+
         JFrame window = new JFrame();
         window.setSize(580, 400);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,7 +67,7 @@ public class Main {
 
         JLabel quizDoMariz = new JLabel("<html><center>"
         	    + "<b>Quiz do Mariz</b><br>"
-        	    + "<span style='font-size:28pt;'>Mariz do Quiz</span>"
+        	    + "<span style='font-size:36pt;'>Mariz do Quiz</span>"
         	    + "</center></html>");
         
                 quizDoMariz.setFont(fontePadrao);
@@ -300,30 +301,34 @@ public class Main {
     	
     	if(!botao.getText().trim().equals("Desafio")) {
     	
-            JPanel x = new JPanel ();
-            
+            //JPanel x = new JPanel ();
+            Image backgroundImageX = new ImageIcon(Main.class.getResource("/images/wallpapersden.com_stargazing-hd-pixel-art_1920x1080.jpg")).getImage();
+            BackgroundPanel x = new BackgroundPanel(backgroundImageX);
+
             x.setPreferredSize(new Dimension(510, 350));
             x.setLayout(null);
             x.setVisible(true);
             x.setOpaque(false);
-            x.setBounds(30,30, 510, 350);
-        // x.setBackground(new Color(0,0,0,0));
+            //x.setBounds(30,30, 510, 350);
+            x.setBounds(0,0, 580, 400);
+         // x.setBackground(new Color(0,0,0,0));
             List<String> temas = BancoDePerguntas.carregarPerguntasPadrao()
                     .stream()
                     .map(Pergunta::getTema)
                     .distinct()
                     .collect(Collectors.toList());
 
-            int larguraPainel = 510;
+            int larguraPainel = 580;
             int larguraTitulo = 300;
             int posX = (larguraPainel - larguraTitulo) / 2;
         
             JLabel novoTitulo = new JLabel();
             novoTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-            novoTitulo.setFont(new Font("Perfect Delight 1992",Font.PLAIN, 64));
-            
+            //novoTitulo.setFont(new Font("Perfect Delight 1992",Font.PLAIN, 64));
+            novoTitulo.setFont(new Font("Minecraftia 2.0",Font.PLAIN, 20));
             novoTitulo.setBounds(posX, 10, larguraTitulo, 100);
             novoTitulo.setForeground(Color.WHITE);
+            //novoTitulo.setForeground(Color.BLACK);
             novoTitulo.setText("Escolha os temas");
             novoTitulo.setVisible(true);
             x.add(novoTitulo);
@@ -374,12 +379,14 @@ public class Main {
 
                 temaCheckBox.add(new JCheckBox(temas.get(i)));
                 x.add(temaCheckBox.get(i));
-                temaCheckBox.get(i).setFont(fontePadrao.deriveFont(11f));
+                temaCheckBox.get(i).setFont(fontePadrao.deriveFont(12f));
                 temaCheckBox.get(i).setMargin(new Insets(2, 2, 2, 2));
                 temaCheckBox.get(i).setFocusPainted(false);
                 temaCheckBox.get(i).setContentAreaFilled(true); // pinta o fundo
-                temaCheckBox.get(i).setBackground(Color.DARK_GRAY);
+                //temaCheckBox.get(i).setBackground(Color.DARK_GRAY);
+                temaCheckBox.get(i).setOpaque(false);
                 temaCheckBox.get(i).setForeground(Color.WHITE);
+                //temaCheckBox.get(i).setForeground(Color.BLACK);
                 temaCheckBox.get(i).setVisible(true);
                 temaCheckBox.get(i).setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(Color.GRAY),                // borda visível
@@ -390,20 +397,20 @@ public class Main {
 
                 int coluna = i % 3;
                 int linha = i / 3;
-                int baseX = 35; 
-                int baseY = 100; 
-                int espacamentoX = 150;
+                int baseX = 60; 
+                int baseY = 150; 
+                int espacamentoX = 160;
                 int espacamentoY = 30;
 
                 coordenadaX = baseX + coluna * espacamentoX;
                 coordenadaY = baseY + linha * espacamentoY;
 
-                temaCheckBox.get(i).setBounds(coordenadaX, coordenadaY, 140, 20);
+                temaCheckBox.get(i).setBounds(coordenadaX, coordenadaY, 150, 20);
             }
             
             
-            prosseguir.setForeground(Color.black);
-            prosseguir.setBounds(360/2,270,150,60);
+            prosseguir.setForeground(Color.WHITE);
+            prosseguir.setBounds(230,320,150,60);
             prosseguir.setVisible(true);
             x.add(prosseguir);
             x.revalidate();
