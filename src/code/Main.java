@@ -18,7 +18,9 @@ public class Main {
         //Font fonteTitulo = CarregarFonte.carregarFonte("/font/Perfect Delight 1992.otf", 64f);
         //Font fonteClose = CarregarFonte.carregarFonte("/font/SpecialExit.ttf", 12f);
         //Font fontePadrao = CarregarFonte.carregarFonte("/font/Minecraftia-Regular.ttf", 12f);
-        
+	    
+        //Usar UIManager.put("");
+	    
         CarregarFonte.registrarFonte("/font/Perfect Delight 1992.otf");//64
         CarregarFonte.registrarFonte("/font/SpecialExit.ttf");//12
         CarregarFonte.registrarFonte("/font/Minecraftia-Regular.ttf");//12
